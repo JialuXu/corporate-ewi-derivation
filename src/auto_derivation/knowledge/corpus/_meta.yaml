@@ -1,0 +1,42 @@
+# 行业知识库元信息
+# 业务专家增量沉淀；任意 markdown 文件加进对应目录即被 loader 识别。
+# 文件名以 `_` 开头的会被跳过（如本文件）。
+
+schema_version: 1
+
+directory_convention:
+  industries/:
+    # 每个 .md 文件名（不含扩展名）作为 industry tag；
+    # loader 会自动赋值 chunk.industry。
+    # 必须与 src/auto_derivation/synthetic.py 中的 INDUSTRIES 列表保持一致。
+    expected_filenames:
+      - 制造.md
+      - 批零.md
+      - 建筑.md
+    # 新增行业：扩展 synthetic.py 的 INDUSTRIES 后，在此目录添加同名 md。
+  cross_cutting/:
+    # 行业无关的通用知识（财务舞弊信号 / 资金流红线 / 司法关联传染 / 监管口径），
+    # industry=None，检索时对所有行业可见。
+    placeholder_only: true
+  pitfalls/:
+    # 五类陷阱（DESIGN.md §8）的案例库；meta_report 的自检环节会引用。
+    # 当前为空，由业务专家按真实案例填写。
+    placeholder_only: true
+
+chunk_strategy:
+  # 按 markdown heading（#/##/###）切块。
+  # 每个 chunk 包含 heading 文本本身 + 该 section 的正文，
+  # 便于检索时短查询（如 "应收账款"）命中标题。
+  by_heading: true
+  max_chars: 800  # 软上限，不强制截断；避免破坏语义完整段落
+
+retrieval:
+  algorithm: tf_idf_char_ngram
+  # 中文用字符 n-gram (analyzer="char_wb", ngram_range=(2,4))，
+  # 不依赖分词器；专名（如 "地方融资平台"）通过字符窗口命中。
+  filter_then_rank: true  # 先按 industry 过滤候选，再算相似度
+
+frontmatter:
+  # md 文件可以选用 yaml frontmatter 加 source/author/last_review，
+  # 但当前 loader 只用文件名 + 内容，frontmatter 字段不参与检索打分。
+  optional: true

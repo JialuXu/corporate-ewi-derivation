@@ -1,0 +1,8 @@
+{
+  "industry_fit": 0.25,
+  "drift_risk": 0.10,
+  "spurious_risk": 0.15,
+  "reasoning": "营收下滑在制造业是经典预警信号，行业知识支持，统计指标稳定。",
+  "evidence_doc_ids": ["industries/制造#应收账款的健康水位"],
+  "flags": ["industry_consistent", "high_iv"]
+}

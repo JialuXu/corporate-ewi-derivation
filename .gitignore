@@ -1,0 +1,126 @@
+# ============================================================================
+# 机密数据 —— 绝不入库
+# ============================================================================
+# 使用方私有的原子指标清单。仓库只发布通用术语编写的示例
+# data/registry/metrics.example.csv；真实清单放本地并用 AD_REGISTRY_CSV 指向。
+原子指标清单.csv
+指标清单*.csv
+data/registry/*.csv
+!data/registry/metrics.example.csv
+
+# 任何真实业务数据（客户/账户/交易/征信/司法明细）
+data/raw/
+data/private/
+data/prod/
+data/real/
+*.private.*
+*_prod.*
+*_真实*
+*脱敏前*
+
+# 常见数据交换格式，避免误提交导出文件
+*.parquet
+*.xlsx
+*.xls
+*.dta
+*.sav
+*.db
+*.sqlite
+*.sqlite3
+!tests/fixtures/**/*.parquet
+
+# ============================================================================
+# 凭证 / 密钥
+# ============================================================================
+.env
+.env.local
+.env.*.local
+.env.production
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+id_rsa*
+id_ed25519*
+*.crt
+credentials
+credentials.json
+service-account*.json
+.netrc
+.pgpass
+*token*.json
+*secret*.yaml
+*secret*.yml
+# scripts/check_public_safety.py 的本地禁用词表（内容本身就是敏感词）
+.public-safety-denylist
+.aws/
+.gcloud/
+.kube/
+
+# ============================================================================
+# Python
+# ============================================================================
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.pyright/
+.mypy_cache/
+.coverage
+htmlcov/
+dist/
+build/
+
+# Virtualenv
+.venv/
+venv/
+
+# ============================================================================
+# 运行产物（可再生）
+# ============================================================================
+# Synthetic data outputs (regeneratable via `derive gen-synthetic`)
+data/synthetic/
+# Run / explanation artifacts (per-run outputs from `derive search` / `explain`)
+data/runs/
+data/cards/
+data/analysis_store/
+explanations/
+*.log
+frontier.md
+report.md
+suspicion.md
+
+# ============================================================================
+# 文档（本地草稿 / 内部设计文档，不随仓库发布）
+# ============================================================================
+docs/
+*方案.md
+使用说明.md
+*.pdf
+*.docx
+*.pptx
+~$*
+
+# AI 编码助手的本地项目指引（仅本地使用，不随仓库发布）
+CLAUDE.md
+CLAUDE.local.md
+**/CLAUDE.md
+
+# ============================================================================
+# OS / 编辑器
+# ============================================================================
+.DS_Store
+Thumbs.db
+._*
+.Spotlight-V100
+.Trashes
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.claude/settings.local.json

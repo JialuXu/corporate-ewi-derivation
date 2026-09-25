@@ -1,0 +1,15 @@
+# 安装：uv tool install pre-commit && pre-commit install
+repos:
+  - repo: local
+    hooks:
+      - id: public-safety
+        name: public-safety (no private inventory / secrets / internal docs)
+        entry: python3 scripts/check_public_safety.py
+        language: system
+        pass_filenames: false
+        always_run: true
+      - id: ruff
+        name: ruff
+        entry: uv run --extra dev ruff check
+        language: system
+        types: [python]

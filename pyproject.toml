@@ -1,0 +1,94 @@
+[project]
+name = "auto-derivation"
+version = "0.1.0"
+description = "Interpretable auto-derivation of corporate post-loan early-warning metrics (typed GP + LLM explanation) · 对公贷后预警指标自动衍生"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "JialuXu" }]
+keywords = [
+    "credit-risk",
+    "early-warning",
+    "feature-engineering",
+    "genetic-programming",
+    "nsga-ii",
+    "explainable-ai",
+    "llm",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Financial and Insurance Industry",
+    "Intended Audience :: Science/Research",
+    "Natural Language :: Chinese (Simplified)",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Office/Business :: Financial",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "polars>=1.10",
+    "duckdb>=1.1",
+    "pyarrow>=17",
+    "pydantic>=2.7",
+    "pydantic-settings>=2.4",
+    "scipy>=1.13",
+    "scikit-learn>=1.5",
+    "typer>=0.12",
+    "numpy>=1.26",
+    "openai>=1.40",
+]
+
+[project.urls]
+Repository = "https://github.com/JialuXu/corporate-ewi-derivation"
+Issues = "https://github.com/JialuXu/corporate-ewi-derivation/issues"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.2",
+    "hypothesis>=6.100",
+    "ruff>=0.6",
+    "pyright>=1.1.380",
+]
+
+[project.scripts]
+derive = "auto_derivation.cli:app"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/auto_derivation"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "UP", "B", "SIM", "RUF"]
+ignore = [
+    "RUF001",  # ambiguous unicode (Chinese fullwidth comma)
+    "RUF002",
+    "RUF003",
+    "N999",    # invalid module name (we use lowercase)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["B011"]
+
+[tool.pyright]
+include = ["src", "tests"]
+pythonVersion = "3.11"
+typeCheckingMode = "basic"
+reportMissingImports = "warning"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q --strict-markers"
+pythonpath = ["src"]

@@ -1,0 +1,29 @@
+{
+  "semantic_clusters": [
+    {
+      "cluster_id": "C1",
+      "business_theme": "营收下滑预警",
+      "member_card_indices": [0, 1],
+      "representative_sexpr": "(GT (PctChange 营业收入 12) -0.1)"
+    }
+  ],
+  "cross_batch_redundancy": [
+    {
+      "card_index_a": 0,
+      "card_index_b": 1,
+      "similarity": 0.85,
+      "reasoning": "两条规则都基于营收同比变化，阈值接近，本质同一指标"
+    }
+  ],
+  "coverage_gaps": [
+    "建筑业在 Y_overdue_3m 标签下未跑过 GP 搜索"
+  ],
+  "pitfall_self_check": {
+    "坑1_PSI单一稳定性": [],
+    "坑2_征信NaN语义": [],
+    "坑3_同期特征": ["卡片 0 需复核是否对 label 做了 3 个月 lag"],
+    "坑4_跨行业混搜": [],
+    "坑5_LLM解释幻觉": []
+  },
+  "overall_recommendation": "本批冗余较高，建议在建筑业补做实验。"
+}
