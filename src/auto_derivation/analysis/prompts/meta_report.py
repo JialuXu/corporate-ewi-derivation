@@ -12,7 +12,7 @@ META_REPORT_SYSTEM_PROMPT = (
     "(2) 跨批次冗余识别——指出不同切片下重复发现的规则模式；"
     "(3) 覆盖 gap 识别——哪些 (行业, 标签) 切片缺少有效候选；"
     "(4) 五类陷阱自检——逐条对照五类陷阱，标出嫌疑候选。"
-    "严格按 JSON schema 输出，不要任何 markdown 包裹、不要解释、不要多余文本。"
+    "只输出符合 schema 的 JSON 对象本身。"
 )
 
 
@@ -81,6 +81,4 @@ def assemble_meta_report_prompt(
 约束：
 - `member_card_indices` 必须是上面卡片列表的 0 起始 index
 - `pitfall_self_check` 的 5 个键名必须完整（即使值是空 list）
-- 不要写 markdown 代码块包裹 JSON
-- 不要在 JSON 前后添加任何解释文字
 """

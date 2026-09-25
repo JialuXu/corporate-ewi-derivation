@@ -1,8 +1,7 @@
 """Tests for `l1_data.panel` — duplicate handling + L1 type contract.
 
 Plan refs:
-- P0.1: `wide_panel` must surface duplicate (entity, date, metric) keys
-        rather than silently collapse via max(value).
+- P0.1: `wide_panel` must surface duplicate (entity, date, metric) keys.
 - P0.3: `write_long_panel` must reject metrics whose dtype the current
         single-float64 schema cannot carry.
 """
@@ -122,8 +121,8 @@ def test_wide_panel_no_duplicates_works(tmp_path):
 
 
 def test_generate_rejects_short_horizon(tmp_path):
-    """The injected bad-customer cascade spans months 14-22; shorter horizons
-    used to crash mid-generation with a broadcast error."""
+    """The injected bad-customer cascade spans months 14-22, so shorter
+    horizons are rejected up front."""
     from auto_derivation.synthetic import generate
 
     with pytest.raises(ValueError, match="n_months"):

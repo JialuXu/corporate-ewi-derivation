@@ -170,10 +170,9 @@ class SuspicionScorer:
         self,
         items: Sequence[SuspicionInput],
     ) -> list[SuspicionVerdict]:
-        """Sequential batch scoring. Concurrency is intentionally NOT enabled
-        here — the LLM API has rate limits and the openai SDK isn't safely
-        shared across threads in all versions. CLI exposes a `--limit` flag
-        to cap the batch size; user can run multiple batches manually."""
+        """Sequential batch scoring: the LLM API has rate limits and the openai
+        SDK isn't safely shared across threads in all versions. The CLI's
+        `--limit` flag caps the batch size; run multiple batches manually."""
         out: list[SuspicionVerdict] = []
         for item in items:
             out.append(self.score(

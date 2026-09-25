@@ -15,8 +15,8 @@ Two layouts:
 `<sha12>` is the first 12 hex chars of sha256(canonical(expr_dict)) — content-
 addressed so re-explaining the same expression idempotently overwrites.
 
-We deliberately do not pull in sqlite yet. jsonl is append-only and grep-able;
-the day we need real multi-dim queries (Phase 1+) we promote it.
+`index.jsonl` is append-only and grep-able; promote it to a queryable store
+once real multi-dim queries are needed (Phase 1+).
 """
 from __future__ import annotations
 

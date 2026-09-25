@@ -69,9 +69,9 @@ def chunk_markdown(
     """Split markdown by heading boundaries; return [(heading_path, body)].
 
     `heading_path` is the list of section titles from `#` down to the
-    deepest preceding heading at that point in the document. Sections
-    longer than `max_chars` are kept as a single chunk — soft limit, not
-    enforced — to avoid splitting mid-paragraph and breaking retrieval.
+    deepest preceding heading at that point in the document. `max_chars` is a
+    soft limit: longer sections are kept as a single chunk to avoid splitting
+    mid-paragraph and breaking retrieval.
     """
     text = _FRONTMATTER_RE.sub("", text)
     sections: list[tuple[list[str], str]] = []
@@ -129,7 +129,7 @@ def load_corpus(root: Path) -> list[CorpusDocument]:
     """Load all `.md` files under `root` (recursively) into CorpusDocuments.
 
     Missing root, empty subdirectories, or zero-document corpora all return
-    `[]` — they do NOT raise. Callers should treat that as cold-start.
+    `[]`. Callers should treat that as cold-start.
     """
     if not root.exists():
         logger.info("corpus root does not exist: %s — returning empty list", root)

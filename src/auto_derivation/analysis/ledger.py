@@ -83,11 +83,10 @@ def _make_run_id() -> str:
 
 
 def _panel_signature(panel_path: Path) -> str:
-    """Fast signature: head 1000 rows + column names, sha256, first 16 bytes.
+    """Fast signature: sha256 of column names + head 1000 rows, first 16 hex chars.
 
-    NOT a content-hash of the whole file — pyarrow rewrites metadata on
-    read/write and would change the full-file hash. This gives a "shape +
-    head sample" fingerprint that is stable across reads."""
+    Hashes decoded content (a "shape + head sample" fingerprint), so it stays
+    stable when pyarrow rewrites file metadata on read/write."""
     if not panel_path.exists():
         return ""
     try:

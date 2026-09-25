@@ -4,8 +4,8 @@ Every produced tree is re-typechecked. If a variation results in an invalid
 tree (window-length < 1, depth > limit, etc.), we retry up to `max_retries`
 times; if still invalid we return the *original* parent unchanged.
 
-All variation operators are purely functional — they return new ExprNodes
-and never mutate the inputs (ExprNode is a frozen dataclass anyway).
+All variation operators are purely functional (ExprNode is a frozen
+dataclass).
 """
 from __future__ import annotations
 

@@ -48,8 +48,7 @@ def write_long_panel(df: pl.DataFrame, path: Path) -> None:
     if missing:
         raise ValueError(f"Long panel missing columns: {missing}")
 
-    # Lazy import to avoid circulars (registry imports nothing in this module,
-    # but this keeps panel.py independent at module-load time).
+    # Lazy import keeps panel.py independent of the registry at module-load time.
     from auto_derivation.l1_data.registry import default_registry
     from auto_derivation.l1_data.types import LogicalType
 

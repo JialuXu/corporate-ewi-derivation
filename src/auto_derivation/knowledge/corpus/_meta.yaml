@@ -28,7 +28,7 @@ chunk_strategy:
   # 每个 chunk 包含 heading 文本本身 + 该 section 的正文，
   # 便于检索时短查询（如 "应收账款"）命中标题。
   by_heading: true
-  max_chars: 800  # 软上限，不强制截断；避免破坏语义完整段落
+  max_chars: 800  # 软上限：超长 section 仍保持为一个 chunk，避免破坏语义完整段落
 
 retrieval:
   algorithm: tf_idf_char_ngram
@@ -37,6 +37,6 @@ retrieval:
   filter_then_rank: true  # 先按 industry 过滤候选，再算相似度
 
 frontmatter:
-  # md 文件可以选用 yaml frontmatter 加 source/author/last_review，
-  # 但当前 loader 只用文件名 + 内容，frontmatter 字段不参与检索打分。
+  # md 文件可以选用 yaml frontmatter 加 source/author/last_review；
+  # loader 会先剥离 frontmatter，只用文件名和正文参与检索。
   optional: true

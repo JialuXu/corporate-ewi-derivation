@@ -9,11 +9,11 @@ SUSPICION_SYSTEM_PROMPT = (
     "（含 S-表达式、业务解释、行业、IV/KS/PSI 等数值，以及可选的行业知识片段），"
     "你要给出三个 [0,1] 区间的可疑度评分："
     "(a) industry_fit — 在所属行业里讲不通的程度（0=合理，1=完全不合行业逻辑）；"
-    "(b) drift_risk — 受概念漂移影响的可能性（启发式判断，不做统计检测）；"
+    "(b) drift_risk — 受概念漂移影响的可能性（启发式判断）；"
     "(c) spurious_risk — 是统计伪相关而非因果信号的可能性。"
     "还要给出 reasoning（中文，120 字以内）解释三个分数的来源，"
     "以及 flags（关键词数组）。"
-    "严格按 JSON schema 输出，不要任何 markdown 包裹、不要解释、不要多余文本。"
+    "只输出符合 schema 的 JSON 对象本身。"
 )
 
 
@@ -79,8 +79,7 @@ def assemble_suspicion_prompt(
 
 约束：
 - 三个评分都是 [0, 1] 之间的浮点数
-- evidence_doc_ids 必须来自上面给出的片段 chunk_id（若上面写"无"，evidence_doc_ids 为空数组）
+- evidence_doc_ids 必须来自上面给出的片段 chunk_id
 - flags 是简短关键词数组，例如 ["industry_consistent", "high_iv", "leakage_suspect"]
 - reasoning 中文，不超过 120 字
-- 不要 markdown 包裹，不要 JSON 前后的任何解释文字
 """

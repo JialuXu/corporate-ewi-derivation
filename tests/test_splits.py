@@ -39,8 +39,7 @@ def test_time_split_empty_panel_raises():
 
 
 def test_time_split_too_few_dates_raises():
-    """With default 0.6/0.2 fractions, n=2 cannot yield three non-empty slices.
-    Pre-fix this returned valid/oot empty without complaint."""
+    """With default 0.6/0.2 fractions, n=2 cannot yield three non-empty slices."""
     df = _panel(2)
     with pytest.raises(ValueError, match="cannot produce three non-empty slices"):
         time_split(df)

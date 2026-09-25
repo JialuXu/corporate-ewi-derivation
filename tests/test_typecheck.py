@@ -81,10 +81,8 @@ def test_depth_limit_enforced():
 
 
 def test_warning_on_distinguish_field():
-    # LOAN_0001 has DISTINGUISH null semantics — we just need ANY op that
-    # accepts a CATEGORY/TEXT type. Wrap it in a no-op IfThenElse via a literal compare?
-    # Simpler: typecheck a leaf-only tree of 客户所处地区 — but we need an op,
-    # so build a Count over a boolean. Skip: simply verify warning emission via direct call.
+    # LOAN_0001 (客户所处地区) has DISTINGUISH null semantics; check the
+    # warning by calling `_check` on the bare field.
     from auto_derivation.expression.typecheck import _check
 
     warnings: list[str] = []

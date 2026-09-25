@@ -46,7 +46,6 @@ def _retriable_exceptions() -> tuple[type[BaseException], ...]:
       - RateLimitError  : provider asked us to back off
       - APITimeoutError : the request took too long
       - APIConnectionError : transport-level hiccup
-    All other errors (auth, schema, 4xx other than 429) propagate immediately.
     """
     try:
         from openai import APIConnectionError, APITimeoutError, RateLimitError
@@ -63,9 +62,8 @@ class OpenAICompatClient:
     Per-instance overrides win if you pass `model=` / `base_url=` / `api_key=`.
 
     Retry policy: exponential backoff with `base_delay * 2**attempt` seconds
-    between attempts. Only the SDK's transient exception types are retried;
-    everything else propagates immediately so we don't paper over auth /
-    schema bugs with retries.
+    between attempts. Only the SDK's transient exception types are retried, so
+    auth / schema bugs surface on the first attempt.
     """
 
     model: str | None = None

@@ -7,7 +7,7 @@ Catches the most common LLM hallucinations:
 2. **Threshold direction mismatch**: the tree uses `GT(x, t)` but the card
    says "...低于阈值时触发..." — direction inverted.
 3. **Statistic drift**: the card cites IV/KS that diverge sharply from what
-   we measured (>10% relative). Optional, only if numbers appear in text.
+   we measured (>10% relative).
 """
 from __future__ import annotations
 
@@ -134,7 +134,7 @@ _NUM_RAW_RE = re.compile(r"IV[^0-9]{0,3}(\d+\.\d+)|KS[^0-9]{0,3}(\d+\.\d+)")
 
 def _check_statistics(card: ExplanationCard, metrics: DiscriminationMetrics) -> list[str]:
     """If the LLM quotes IV/KS in its narrative, they must be within 10% of
-    the measured values. We don't fail when no numbers are quoted."""
+    the measured values."""
     issues: list[str] = []
     text = card.business_explanation + " " + card.diff_vs_existing
     for m in _NUM_RAW_RE.finditer(text):

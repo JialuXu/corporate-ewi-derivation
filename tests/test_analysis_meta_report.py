@@ -76,8 +76,8 @@ def test_meta_report_handles_missing_pitfall_keys():
 
 
 def test_meta_report_parse_failure_is_recoverable():
-    """If LLM returns non-JSON garbage, we should NOT raise — we should
-    return a MetaReport with raw_llm_output and a 'parse_failed' gap."""
+    """If LLM returns non-JSON garbage, build() returns a MetaReport with
+    raw_llm_output and a 'parse_failed' gap."""
     client = MockClient(canned_json="this is not json at all")
     report = MetaReportBuilder(llm=client).build([_make_card("x")])
     assert "llm_output_parse_failed" in report.coverage_gaps

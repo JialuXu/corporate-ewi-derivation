@@ -79,9 +79,8 @@ class TypedPrimitiveSet:
     unsupported_fields: list[MetricMeta] = field(default_factory=list, init=False)
     # ↑ Populated in __post_init__: metrics rejected because the current
     # single-float64 physical schema can't represent CATEGORY/TEXT/DATE.
-    # Tracked explicitly (rather than silently filtered) so the gap between
-    # the L1 type system's contract and the executor's capabilities is
-    # visible — see plan P0.3 / P2b.
+    # Tracked explicitly so the gap between the L1 type system's contract and
+    # the executor's capabilities is visible.
 
     def __post_init__(self) -> None:
         self._ops_by_out: dict[LogicalType, list[Operator]] = defaultdict(list)

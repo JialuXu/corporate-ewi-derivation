@@ -1,11 +1,9 @@
 """Discrimination metrics: IV, KS, Gini.
 
-IV uses equal-frequency binning via `np.quantile`; we deliberately do NOT use
-sklearn's KBinsDiscretizer here because (a) it adds an import cost for a tiny
-function and (b) we need to handle NaN explicitly as a separate bin.
+IV uses equal-frequency binning via `np.quantile`.
 
 KS uses scipy.stats.ks_2samp on the score distributions of label==0 vs label==1
-(this is the standard credit-risk KS, not the one-sample KS test).
+(the standard credit-risk KS).
 """
 from __future__ import annotations
 

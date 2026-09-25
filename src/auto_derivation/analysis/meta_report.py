@@ -6,8 +6,8 @@ into `MetaReport`. The LLM is asked to: (a) cluster cards by business theme,
 (b) flag cross-batch redundancy, (c) identify coverage gaps, (d) self-check
 against the five pitfalls in DESIGN.md §8.
 
-JSON parse failures do NOT raise — we return a partial MetaReport with the
-raw output preserved, so the CLI can show it to the analyst and they can
+On JSON parse or schema failure, `build` returns a partial MetaReport with
+the raw output preserved, so the CLI can show it to the analyst and they can
 re-prompt.
 """
 from __future__ import annotations
@@ -128,8 +128,8 @@ class MetaReportBuilder:
             industries_seen=industries_seen,
             labels_seen=labels_seen,
         )
-        # 32k tokens is overkill for analysis prompts; meta-report needs room
-        # for nested clusters + pitfalls JSON. 4096 is plenty.
+        # The meta-report JSON (nested clusters + pitfalls) needs more room
+        # than the client's 1024-token default.
         raw = self.llm.complete(
             system=META_REPORT_SYSTEM_PROMPT, user=user, max_tokens=4096,
         )

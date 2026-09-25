@@ -149,8 +149,7 @@ def test_backoff_sequence_powers_of_two(monkeypatch):
 
 
 def test_non_retriable_propagates_no_sleep(monkeypatch):
-    """A bug or auth error must surface immediately, not be papered over by
-    retries."""
+    """A bug or auth error propagates on the first attempt."""
     monkeypatch.setattr(llm_client_mod, "_retriable_exceptions", lambda: (_RetriableError,))
     sleeps = _record_sleeps(monkeypatch)
 
