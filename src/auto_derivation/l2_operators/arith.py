@@ -3,11 +3,10 @@
 Five element-wise operators on numeric pairs: Add / Subtract / Multiply / Min / Max.
 All have signature (NUMERIC, NUMERIC) → NUMERIC with no literal arg.
 
-Min/Max use Polars' horizontal aggregations rather than `when().then()` —
-faster and clearer.
+Min/Max use Polars' horizontal aggregations.
 
-Division is intentionally absent — `Ratio(a, b)` already covers it (and
-guards against div-by-zero).
+Division is provided by `Ratio(a, b)` in crosssrc.py, which guards against
+div-by-zero.
 """
 from __future__ import annotations
 

@@ -1,9 +1,8 @@
 """TF-IDF retriever over CorpusChunks.
 
-Chinese text uses character n-gram analyzers (`char_wb`, ngram_range=(2,4))
-so the retriever does NOT depend on a word segmenter (no jieba, no
-domain-specific dictionary). Business terms like "应收账款 / 地方融资平台"
-are recognised as overlapping char windows.
+Chinese text uses character n-gram analyzers (`char_wb`, ngram_range=(2,4)),
+so business terms like "应收账款 / 地方融资平台" are recognised as
+overlapping char windows without word segmentation.
 
 Industry filtering happens BEFORE TF-IDF: we restrict the candidate pool to
 chunks whose `industry` is None (cross-cutting) or matches the query's

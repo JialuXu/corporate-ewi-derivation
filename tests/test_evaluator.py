@@ -85,7 +85,4 @@ def test_random_capital_has_no_signal(synthetic_paths):
     """Negative control: 注册资本 is independent of bad/good — IV should be ~0."""
     panel, labels = synthetic_paths
     metrics = _eval_and_score(panel, labels, "注册资本", "Y_overdue_3m")
-    # Wait — a bare field can't be evaluated; we need an op. Wrap with Mean(window=1)?
-    # Mean(BIZ_0001, 1) ≡ identity. Use that.
-    metrics = _eval_and_score(panel, labels, "(Mean 注册资本 1)", "Y_overdue_3m")
     assert metrics.iv < 0.05, f"Unexpected signal in noise: IV={metrics.iv:.4f}"

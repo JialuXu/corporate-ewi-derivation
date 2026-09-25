@@ -71,11 +71,10 @@ def test_literal_jitter_changes_only_literals(primset, parents):
 
 
 def test_variation_with_invalid_parent_returns_unchanged(primset):
-    """If retries fail, variation must return parent unchanged (never raise)."""
+    """If retries fail, variation returns the parent unchanged."""
     from auto_derivation.expression.tree import FieldNode
 
     bad = FieldNode(name="THIS_DOES_NOT_EXIST_999")
     rng = np.random.default_rng(0)
     out = subtree_mutation(bad, primset=primset, rng=rng, max_retries=3)
-    # Function returns parent; we only check no exception escapes.
     assert to_json(out) == to_json(bad)

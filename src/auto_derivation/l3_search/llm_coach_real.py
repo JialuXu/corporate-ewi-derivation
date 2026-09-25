@@ -1,8 +1,7 @@
 """Real LLM coach (DESIGN.md §5.3) backed by any OpenAI-compatible endpoint.
 
 Implements the `LLMCoach` Protocol from `llm_coach.py` by reusing the L4
-transport (`OpenAICompatClient`) — we don't fork the LLM plumbing between
-L3 and L4.
+transport (`OpenAICompatClient`).
 
 Every method degrades gracefully: a coach failure (network error, bad JSON,
 unparsable S-expression) must never kill the GP search, so errors are logged
@@ -25,11 +24,11 @@ logger = logging.getLogger(__name__)
 _SYSTEM = (
     "你是对公贷后预警领域的风控专家，辅助一个遗传规划（GP）搜索引擎衍生新的预警指标。"
     "表达式使用 S-表达式语法，例如 (GT (PctChange 营业收入 4) 0.3)。"
-    "只能使用提供的算子名和字段名，不得编造。"
-    "严格按 JSON 输出，不要 markdown 包裹、不要解释、不要多余文本。"
+    "只能使用提供的算子名和字段名。"
+    "只输出 JSON 对象本身。"
 )
 
-# Keep prompts bounded — the registry has ~800 fields; a sample is enough
+# Keep prompts bounded — a full inventory can be large; a sample is enough
 # context for the coach to propose plausible combinations.
 _MAX_FIELDS_IN_PROMPT = 120
 
@@ -121,7 +120,7 @@ class OpenAICompatCoach:
 【可用算子】{"、".join(available_op_names)}
 【可用字段】{_fields_block(available_field_names)}
 
-输出 JSON：{{"exprs": ["(GT (Div 字段A 字段B) 1.5)", ...]}}"""
+输出 JSON：{{"exprs": ["(GT (Ratio 字段A 字段B) 1.5)", ...]}}"""
         return self._ask_for_trees(user, set(available_op_names), role="cross_source")
 
     # --- internals ---

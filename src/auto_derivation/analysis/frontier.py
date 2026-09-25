@@ -49,8 +49,8 @@ def _non_dominated(entries: list[ParetoEntry]) -> list[ParetoEntry]:
             if i == j:
                 continue
             fj = tuple(f.fitness)
-            # Pad shorter tuples with -inf so unequal fitness dims still compare
-            # — by construction they should match, but be defensive.
+            # Skip entries whose fitness dims differ — by construction they
+            # match; this is purely defensive.
             if len(ei) != len(fj):
                 continue
             if dominates(fj, ei):

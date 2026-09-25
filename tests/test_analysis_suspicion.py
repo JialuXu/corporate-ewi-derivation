@@ -66,7 +66,7 @@ def test_suspicion_score_with_corpus(tmp_path):
 
 
 def test_suspicion_cold_start_no_corpus():
-    """retriever=None should NOT raise; flags should include 'no_corpus'."""
+    """retriever=None → verdict flags include 'no_corpus'."""
     scorer = SuspicionScorer(
         llm=MockClient(canned_json=_canned_suspicion()),
         retriever=None,

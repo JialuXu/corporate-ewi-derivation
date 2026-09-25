@@ -73,13 +73,7 @@ def _ts_rank(args: Sequence[pl.Expr], literals: Sequence, _ctx: EvalContext) -> 
     (x,) = args
     (n,) = literals
     n_int = int(n)
-    rolled = x.rolling_max(window_size=n_int, min_samples=1)  # placeholder for shape
-    # Polars supports rolling_quantile; rank via element-wise comparison fold.
-    # Simpler: compute (count of past values <= current) / N using rolling sum
-    # of indicator. We do this with a window-aware approach below.
-    # For Phase 0 we use rolling_quantile inverse: TsRank ≈ rolling rank of last value.
-    del rolled
-    # Use rolling map: percentile of the last value within the window.
+    # Percentile of the last value within the window.
     return _entity_window(
         x.rolling_map(
             lambda s: ((s <= s[-1]).sum() / s.len()),

@@ -1,7 +1,7 @@
 """Time-based train/valid/oot splits.
 
 DESIGN.md §5.4 + §8 pitfall 3:
-- splits must be strictly time-ordered (no random shuffling)
+- splits must be strictly time-ordered
 - the OOT slice must postdate everything used to train
 - features may need a T-3M lag if the warning target is "提前 3 个月发现"
 """
@@ -30,8 +30,7 @@ def time_split(
     """Split by observation_date quantiles into train/valid/oot.
 
     Returns (train_df, valid_df, oot_df, dates). Raises ValueError if the
-    panel does not have enough distinct dates to populate all three slices —
-    the legacy code silently produced empty/overlapping slices in that case.
+    panel does not have enough distinct dates to populate all three slices.
     """
     if not 0 < train_frac < 1 or not 0 < valid_frac < 1 or train_frac + valid_frac >= 1:
         raise ValueError("train_frac and valid_frac must sum to < 1 and both be in (0, 1)")

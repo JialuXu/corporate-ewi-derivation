@@ -154,9 +154,9 @@ atom := 数字字面量 | "字符串" | 字段名（中文 name_cn 或 metric_id
 - 算子 = dataclass + `compile(args, literals, ctx) → pl.Expr`，整棵树**一次编译、一次扫描**
 - 物理布局是长表 Parquet；DuckDB `PIVOT` 出宽表后由 Polars 求值
 - 类型检查同时执行硬约束（树深 ≤ 5、叶子 ≤ 8、金额/计数 Ratio 黑名单、财务字段窗口约束）
-- L3 GP 是手写的**类型化** GP（不是 gplearn）：每次变异都 typecheck，无效返回原 parent；NSGA-II 6 维 fitness `(IV, KS_oot, stability=1/(1+PSI), 单调性, -leaves, -redundancy)`
+- L3 GP 是手写的**类型化** GP：每次变异都 typecheck，无效返回原 parent；NSGA-II 6 维 fitness `(IV, KS_oot, stability=1/(1+PSI), 单调性, -leaves, -redundancy)`
 - L4 LLM 客户端走 OpenAI-compatible 端点（默认 DeepSeek，可换 OpenAI / Moonshot / vLLM）；mock client 用于无 API key 测试；机器一致性检查捕捉字段幻觉、阈值方向反转、统计量漂移
-- `analysis/` 与 L1–L4 **零侵入**：通过 wrapper 读 `SearchResult` / `ExplanationResult` 的公开 schema 入账；JSON 解析失败 / cold-start corpus 全部降级而不抛异常
+- `analysis/` 与 L1–L4 **零侵入**：通过 wrapper 读 `SearchResult` / `ExplanationResult` 的公开 schema 入账；JSON 解析失败 / cold-start corpus 全部降级处理
 - Ledger 用 parquet append-only + Hive partition (`industry=…`)，一个 run 一个文件，并发安全；嵌套字段以 JSON 字符串列存储，schema 完全扁平，便于下游直接消费
 - 知识库检索用 sklearn 的 `TfidfVectorizer(analyzer='char_wb', ngram_range=(2,4))`——免分词、无 embedding 依赖；超过 500 篇或需要近义词查询时再升级
 
@@ -170,4 +170,4 @@ atom := 数字字面量 | "字符串" | 字段名（中文 name_cn 或 metric_id
 ## 运行环境
 
 - macOS / Linux，Python 3.11–3.13
-- 单机即可；不需要 Spark / GPU
+- 单机 CPU 即可
