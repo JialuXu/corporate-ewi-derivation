@@ -28,7 +28,7 @@ _SYSTEM = (
     "只输出 JSON 对象本身。"
 )
 
-# Keep prompts bounded — the registry has ~800 fields; a sample is enough
+# Keep prompts bounded — a full inventory can be large; a sample is enough
 # context for the coach to propose plausible combinations.
 _MAX_FIELDS_IN_PROMPT = 120
 
@@ -120,7 +120,7 @@ class OpenAICompatCoach:
 【可用算子】{"、".join(available_op_names)}
 【可用字段】{_fields_block(available_field_names)}
 
-输出 JSON：{{"exprs": ["(GT (Div 字段A 字段B) 1.5)", ...]}}"""
+输出 JSON：{{"exprs": ["(GT (Ratio 字段A 字段B) 1.5)", ...]}}"""
         return self._ask_for_trees(user, set(available_op_names), role="cross_source")
 
     # --- internals ---
